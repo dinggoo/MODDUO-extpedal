@@ -20,8 +20,9 @@
 #include <ControlChain.h>
 
 ControlChain cc;
-float buttonValue;
-int ledPin = 13, buttonPin = 7;
+float valFWS1;
+int LED1 = 13;
+int FSW1 = 7;
 
 int buttonState;             // the current reading from the input pin
 int lastButtonState = HIGH;  // the previous reading from the input pin
@@ -33,12 +34,12 @@ unsigned long debounceDelay = 20;    // the debounce time; increase if the outpu
 
 void setup() {
     // configure led
-    pinMode(ledPin, OUTPUT);
-    digitalWrite(ledPin, LOW);
+    pinMode(LED1, OUTPUT);
+    digitalWrite(LED1, LOW);
 
     // configure button pin as input and enable internal pullup
-    pinMode(buttonPin, INPUT);
-    digitalWrite(buttonPin, HIGH);
+    pinMode(FSW1, INPUT);
+    digitalWrite(FSW1, HIGH);
 
     // initialize control chain
     // note that control chain requires the Serial 0 and pin 2, which means
@@ -54,8 +55,8 @@ void setup() {
     // configure actuator
     cc_actuator_config_t actuator_config;
     actuator_config.type = CC_ACTUATOR_MOMENTARY;
-    actuator_config.name = "PressMe";
-    actuator_config.value = &buttonValue;
+    actuator_config.name = "FS1";
+    actuator_config.value = &valFWS1;
     actuator_config.min = 0.0;
     actuator_config.max = 1.0;
     actuator_config.supported_modes = CC_MODE_TOGGLE | CC_MODE_TRIGGER;
@@ -80,15 +81,15 @@ void updateLED(cc_assignment_t *assignment) {
     // turn led on/off according the assignment value
     if (assignment->mode & CC_MODE_TOGGLE) {
         if (assignment->value > 0.0)
-            digitalWrite(ledPin, HIGH);
+            digitalWrite(LED1, HIGH);
         else
-            digitalWrite(ledPin, LOW);
+            digitalWrite(LED1, LOW);
     }
 }
 
 int readButton(void) {
     // read the state of the switch into a local variable:
-    int reading = digitalRead(buttonPin);
+    int reading = digitalRead(FSW1);
 
     // check to see if you just pressed the button
     // (i.e. the input went from LOW to HIGH),  and you've waited
@@ -132,9 +133,9 @@ void loop() {
     // state =  0 -> same state as before (no change)
     int state = readButton();
     if (state == 1) {
-        buttonValue = 1.0;
+        valFWS1 = 1.0;
     } else if (state == -1) {
-        buttonValue = 0.0;
+        valFWS1 = 0.0;
     }
 
     // this function always must be placed in your program loop
