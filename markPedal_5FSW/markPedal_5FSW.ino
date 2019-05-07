@@ -14,11 +14,9 @@ Bounce debounceFSW1 = Bounce();
 Bounce debounceFSW2 = Bounce();
 Bounce debounceFSW3 = Bounce();
 Bounce debounceFSW4 = Bounce();
-
-
 unsigned long debounceDelay = 10;    // the debounce time; increase if the output flickers
 
-// define pinNumbers
+// define pinNumbers for switches and leds
 int FSW1 = 7, FSW2 = 6, FSW3 = 5, FSW4 = 4;
 int LED1 = 13, LED2 = 12, LED3 = 11, LED4 = 10;
 
@@ -34,7 +32,6 @@ void setup() {
   digitalWrite(LED2, LOW);
   digitalWrite(LED3, LOW);
   digitalWrite(LED4, LOW);
-
   
   pinMode(FSW1, INPUT_PULLUP);
   pinMode(FSW2, INPUT_PULLUP);
